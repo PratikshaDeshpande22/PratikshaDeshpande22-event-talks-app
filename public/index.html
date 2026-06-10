@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechTalks 2026 | Event Schedule</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --accent: #f59e0b;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding-bottom: 4rem;
+        }
+
+        header {
+            background-color: #0f172a;
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            letter-spacing: -0.025em;
+        }
+
+        .event-meta {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .search-container {
+            margin-bottom: 2.5rem;
+            position: sticky;
+            top: 1rem;
+            z-index: 100;
+        }
+
+        #categorySearch {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        #categorySearch:focus {
+            border-color: var(--primary);
+        }
+
+        .schedule {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .item {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 1.5rem;
+            opacity: 1;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 640px) {
+            .item {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+            .time-column {
+                font-weight: 700;
+                color: var(--primary);
+            }
+        }
+
+        .time-column {
+            text-align: right;
+            padding-top: 1.25rem;
+            font-variant-numeric: tabular-nums;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+        }
+
+        .card.lunch {
+            background-color: #fef3c7;
+            border-color: #fde68a;
+            text-align: center;
+            font-weight: 600;
+            color: #92400e;
+        }
+
+        .card.break {
+            padding: 0.75rem 1.5rem;
+            background: #f1f5f9;
+            border-style: dashed;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .talk-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+
+        .speakers {
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background: #eff6ff;
+            color: var(--primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .description {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+            background: white;
+            border-radius: 1rem;
+            border: 1px dashed var(--border);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <h1>TechTalks 2026</h1>
+        <p class="event-meta">Wednesday, June 10, 2026 • 10:00 AM — 5:40 PM</p>
+    </div>
+</header>
+
+<div class="container">
+    <div class="search-container">
+        <input type="text" id="categorySearch" placeholder="Search categories (e.g. Node.js, AI, DevOps)...">
+    </div>
+
+    <div id="schedule" class="schedule">
+        <!-- JS will populate this -->
+    </div>
+    
+    <div id="noResults" class="no-results hidden">
+        No talks found for this category.
+    </div>
+</div>
+
+<script>
+    // Embedded data for "serverless" standalone use
+    const embeddedTalks = [
+      {
+        "title": "Scaling Node.js Applications with Microservices",
+        "speakers": ["Alex Rivera"],
+        "categories": ["Node.js", "Backend", "Architecture"],
+        "duration": 60,
+        "description": "Learn how to break down monolithic Node.js applications into scalable, resilient microservices using modern architectural patterns and containerization."
+      },
+      {
+        "title": "The Future of AI: Generative Models in Production",
+        "speakers": ["Sarah Chen", "James Wilson"],
+        "categories": ["AI", "Machine Learning", "LLM"],
+        "duration": 60,
+        "description": "An exploration of integrating large language models into existing production workflows, focusing on optimization, cost management, and ethical considerations."
+      },
+      {
+        "title": "Mastering Modern CSS: Beyond Responsive Design",
+        "speakers": ["Jordan Smith"],
+        "categories": ["Frontend", "CSS", "UI/UX"],
+        "duration": 60,
+        "description": "Deep dive into CSS Grid, Subgrid, Container Queries, and modern layout techniques that go beyond simple media queries for truly fluid interfaces."
+      },
+      {
+        "title": "Securing the Supply Chain: A Developer's Guide",
+        "speakers": ["Elena Rodriguez"],
+        "categories": ["Security", "DevOps"],
+        "duration": 60,
+        "description": "A practical session on identifying and mitigating vulnerabilities in software dependencies and CI/CD pipelines to protect your organization's assets."
+      },
+      {
+        "title": "Cloud Native Observability with OpenTelemetry",
+        "speakers": ["Marcus Varga"],
+        "categories": ["Cloud", "DevOps", "Monitoring"],
+        "duration": 60,
+        "description": "Discover how OpenTelemetry provides a unified standard for gathering traces, metrics, and logs in distributed systems for better debugging and performance analysis."
+      },
+      {
+        "title": "Building Accessible Web Components with Web Standards",
+        "speakers": ["Priya Patel"],
+        "categories": ["Frontend", "Accessibility", "Web Components"],
+        "duration": 60,
+        "description": "Learn the best practices for creating reusable, accessible web components that follow WAI-ARIA guidelines and leverage native browser capabilities."
+      }
+    ];
+
+    const START_TIME = 600; // 10:00 AM in minutes from midnight
+    const TRANSITION = 10;
+    const LUNCH_DURATION = 60;
+
+    function formatTime(minutes) {
+        const h = Math.floor(minutes / 60);
+        const m = minutes % 60;
+        const period = h >= 12 ? 'PM' : 'AM';
+        const displayH = h % 12 || 12;
+        const displayM = m < 10 ? '0' + m : m;
+        return `${displayH}:${displayM} ${period}`;
+    }
+
+    function renderSchedule(talks) {
+        const scheduleEl = document.getElementById('schedule');
+        scheduleEl.innerHTML = '';
+        
+        let currentTime = START_TIME;
+
+        talks.forEach((talk, index) => {
+            // Check for lunch break after talk 2
+            if (index === 2) {
+                const lunchStart = currentTime;
+                const lunchEnd = currentTime + LUNCH_DURATION;
+                
+                const lunchItem = document.createElement('div');
+                lunchItem.className = 'item special';
+                lunchItem.innerHTML = `
+                    <div class="time-column">${formatTime(lunchStart)} - ${formatTime(lunchEnd)}</div>
+                    <div class="card lunch">🍴 Lunch Break</div>
+                `;
+                scheduleEl.appendChild(lunchItem);
+                currentTime += LUNCH_DURATION;
+            }
+
+            // Render Talk
+            const talkStart = currentTime;
+            const talkEnd = currentTime + talk.duration;
+            
+            const talkItem = document.createElement('div');
+            talkItem.className = 'item talk-item';
+            talkItem.dataset.categories = talk.categories.join(',').toLowerCase();
+            talkItem.innerHTML = `
+                <div class="time-column">${formatTime(talkStart)} - ${formatTime(talkEnd)}</div>
+                <div class="card">
+                    <div class="tags">${talk.categories.map(c => `<span class="tag">${c}</span>`).join('')}</div>
+                    <h2 class="talk-title">${talk.title}</h2>
+                    <div class="speakers">👤 ${talk.speakers.join(' & ')}</div>
+                    <p class="description">${talk.description}</p>
+                </div>
+            `;
+            scheduleEl.appendChild(talkItem);
+            currentTime += talk.duration;
+
+            // Add transition break after talks (except the last one)
+            if (index < talks.length - 1) {
+                const breakStart = currentTime;
+                const breakEnd = currentTime + TRANSITION;
+                
+                const breakItem = document.createElement('div');
+                breakItem.className = 'item break-item';
+                breakItem.innerHTML = `
+                    <div class="time-column">${formatTime(breakStart)} - ${formatTime(breakEnd)}</div>
+                    <div class="card break">☕ Transition Break</div>
+                `;
+                scheduleEl.appendChild(breakItem);
+                currentTime += TRANSITION;
+            }
+        });
+    }
+
+    async function init() {
+        let talks = embeddedTalks;
+        
+        try {
+            const response = await fetch('/api/talks');
+            if (response.ok) {
+                talks = await response.json();
+            }
+        } catch (e) {
+            console.log("Using embedded fallback data.");
+        }
+
+        renderSchedule(talks);
+
+        const searchInput = document.getElementById('categorySearch');
+        const noResults = document.getElementById('noResults');
+
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const items = document.querySelectorAll('.talk-item');
+            let found = 0;
+
+            items.forEach(item => {
+                const cats = item.dataset.categories;
+                // Find associated breaks
+                const nextBreak = item.nextElementSibling;
+                const prevLunch = item.previousElementSibling;
+
+                if (cats.includes(term)) {
+                    item.classList.remove('hidden');
+                    if (nextBreak && nextBreak.classList.contains('break-item')) nextBreak.classList.remove('hidden');
+                    // Special handling for lunch: only show if relevant talks are shown?
+                    // Let's keep lunch and breaks visible if any talk matches to keep schedule integrity
+                    found++;
+                } else {
+                    item.classList.add('hidden');
+                    if (nextBreak && nextBreak.classList.contains('break-item')) nextBreak.classList.add('hidden');
+                }
+            });
+
+            // If searching, we might hide breaks to avoid clutter
+            const allBreaks = document.querySelectorAll('.break-item, .special');
+            if (term.length > 0) {
+                allBreaks.forEach(b => {
+                    // Only show lunch if we have any results at all
+                    if (found > 0 && b.classList.contains('special')) b.classList.remove('hidden');
+                    else b.classList.add('hidden');
+                });
+            } else {
+                allBreaks.forEach(b => b.classList.remove('hidden'));
+            }
+
+            noResults.classList.toggle('hidden', found > 0 || term.length === 0);
+        });
+    }
+
+    init();
+</script>
+
+</body>
+</html>

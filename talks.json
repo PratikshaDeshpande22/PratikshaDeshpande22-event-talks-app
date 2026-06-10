@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Scaling Node.js Applications with Microservices",
+    "speakers": ["Alex Rivera"],
+    "categories": ["Node.js", "Backend", "Architecture"],
+    "duration": 60,
+    "description": "Learn how to break down monolithic Node.js applications into scalable, resilient microservices using modern architectural patterns and containerization."
+  },
+  {
+    "title": "The Future of AI: Generative Models in Production",
+    "speakers": ["Sarah Chen", "James Wilson"],
+    "categories": ["AI", "Machine Learning", "LLM"],
+    "duration": 60,
+    "description": "An exploration of integrating large language models into existing production workflows, focusing on optimization, cost management, and ethical considerations."
+  },
+  {
+    "title": "Mastering Modern CSS: Beyond Responsive Design",
+    "speakers": ["Jordan Smith"],
+    "categories": ["Frontend", "CSS", "UI/UX"],
+    "duration": 60,
+    "description": "Deep dive into CSS Grid, Subgrid, Container Queries, and modern layout techniques that go beyond simple media queries for truly fluid interfaces."
+  },
+  {
+    "title": "Securing the Supply Chain: A Developer's Guide",
+    "speakers": ["Elena Rodriguez"],
+    "categories": ["Security", "DevOps"],
+    "duration": 60,
+    "description": "A practical session on identifying and mitigating vulnerabilities in software dependencies and CI/CD pipelines to protect your organization's assets."
+  },
+  {
+    "title": "Cloud Native Observability with OpenTelemetry",
+    "speakers": ["Marcus Varga"],
+    "categories": ["Cloud", "DevOps", "Monitoring"],
+    "duration": 60,
+    "description": "Discover how OpenTelemetry provides a unified standard for gathering traces, metrics, and logs in distributed systems for better debugging and performance analysis."
+  },
+  {
+    "title": "Building Accessible Web Components with Web Standards",
+    "speakers": ["Priya Patel"],
+    "categories": ["Frontend", "Accessibility", "Web Components"],
+    "duration": 60,
+    "description": "Learn the best practices for creating reusable, accessible web components that follow WAI-ARIA guidelines and leverage native browser capabilities."
+  }
+]
